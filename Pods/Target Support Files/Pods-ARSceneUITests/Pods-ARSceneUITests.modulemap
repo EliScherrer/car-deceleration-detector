@@ -1,0 +1,6 @@
+framework module Pods_ARSceneUITests {
+  umbrella header "Pods-ARSceneUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

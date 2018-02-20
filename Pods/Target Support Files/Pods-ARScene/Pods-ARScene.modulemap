@@ -1,0 +1,6 @@
+framework module Pods_ARScene {
+  umbrella header "Pods-ARScene-umbrella.h"
+
+  export *
+  module * { export * }
+}
