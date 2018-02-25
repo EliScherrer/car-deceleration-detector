@@ -12,6 +12,7 @@ import ARKit
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
+    var statusLabel:UILabel?
     @IBOutlet var sceneView: ARSCNView!
     
     override func viewDidLoad() {
@@ -22,12 +23,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Show statistics such as fps and timing information
         sceneView.showsStatistics = true
+        statusLabel = UILabel(frame: CGRect.zero)
+        statusLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        statusLabel?.textAlignment = .center
+        statusLabel?.textColor = .white
+        statusLabel?.frame = CGRect(x: 0, y: 16, width: view.bounds.width, height: 64)
         
         // Create a new scene
-        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        
+//        let scene = SCNScene(named: "art.scnassets/ship.scn")!
+        sceneView.addSubview(statusLabel!)
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        tapRecognizer.numberOfTapsRequired = 1
+        sceneView.addGestureRecognizer(tapRecognizer)
         // Set the scene to the view
-        sceneView.scene = scene
+//        sceneView.scene = scene
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,14 +63,28 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     // MARK: - ARSCNViewDelegate
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
-    func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
-        let node = SCNNode()
-     
-        return node
+    func session(_ session: ARSession, cameraDidChangeTrackingState camera: ARCamera) {
+        //5
+        var status = "Loading..."
+        switch camera.trackingState {
+        case ARCamera.TrackingState.notAvailable:
+            status = "Not available"
+        case ARCamera.TrackingState.limited(_):
+            status = "Analyzing..."
+        case ARCamera.TrackingState.normal:
+            status = "Ready"
+        }
+        statusLabel?.text = status
     }
-*/
+    
+    @objc func handleTap(sender: UITapGestureRecognizer) {
+        let tapLocation = sender.location(in: sceneView)
+        let hitTestResults = sceneView.hitTest(tapLocation, types: .featurePoint)
+        if let result = hitTestResults.first {
+            let distance = result.distance
+            statusLabel?.text = String(format: "Distance: %.2f meters", distance)
+        }
+    }
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user

@@ -8,16 +8,51 @@
 
 import UIKit
 import Firebase
+import AVFoundation
 class LoginViewController: UIViewController {
-
+    var avPlayer: AVPlayer!
+    var avPlayerLayer: AVPlayerLayer!
+    var paused: Bool = false
     @IBOutlet weak var userEmail: UITextField!
     @IBOutlet weak var userPassword: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        let theURL = Bundle.main.path(forResource: "Traffic", ofType:"mp4")
+        
+        avPlayer = AVPlayer.init(url: URL(fileURLWithPath: theURL!))
+        avPlayerLayer = AVPlayerLayer(player: avPlayer)
+        avPlayerLayer.videoGravity = AVLayerVideoGravity.resizeAspectFill
+        avPlayer.volume = 0
+        avPlayer.actionAtItemEnd = AVPlayerActionAtItemEnd.none
+        
+        avPlayerLayer.frame = view.layer.bounds
+        view.backgroundColor = UIColor.clear;
+        view.layer.insertSublayer(avPlayerLayer, at: 0)
+        avPlayer.play()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(playerItemDidReachEnd),
+                                                         name: NSNotification.Name.AVPlayerItemDidPlayToEndTime,
+                                                         object: avPlayer.currentItem)
     }
-
+    
+    @objc func playerItemDidReachEnd(notification: NSNotification) {
+        let p: AVPlayerItem = notification.object as! AVPlayerItem
+        p.seek(to: kCMTimeZero, completionHandler: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        avPlayer.play()
+        paused = false
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        avPlayer.pause()
+        paused = true
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

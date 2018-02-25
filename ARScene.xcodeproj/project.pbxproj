@@ -10,6 +10,8 @@
 		09DD183FFA0F0207EA6AA201 /* Pods_ARScene.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F82AE66EBD32F634AB5954EA /* Pods_ARScene.framework */; };
 		3DDE5C11C7D6B5C71E3FD331 /* Pods_ARSceneUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3A53C84628CFA7C346A81FE1 /* Pods_ARSceneUITests.framework */; };
 		7516DB740118631E97D73805 /* Pods_ARSceneTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F05703CF626B0AB645650D5 /* Pods_ARSceneTests.framework */; };
+		A57B414F2042C3EC00444716 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A57B414D2042C3B800444716 /* ARKit.framework */; };
+		A57B41532042C96300444716 /* Traffic.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = A57B41522042C96300444716 /* Traffic.mp4 */; };
 		A583DD19203BA8BA00274065 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A583DD18203BA8BA00274065 /* GoogleService-Info.plist */; };
 		A583DD1C203BA98D00274065 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A583DD1B203BA98D00274065 /* LoginViewController.swift */; };
 		A5AFA581203B980E00F5E973 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5AFA580203B980E00F5E973 /* AppDelegate.swift */; };
@@ -46,6 +48,8 @@
 		3D70BFFAC892A38E558E9095 /* Pods-ARSceneTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARSceneTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ARSceneTests/Pods-ARSceneTests.release.xcconfig"; sourceTree = "<group>"; };
 		470606D3F8ECD9E742ADE4F1 /* Pods-ARSceneTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARSceneTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARSceneTests/Pods-ARSceneTests.debug.xcconfig"; sourceTree = "<group>"; };
 		671AE101F1C65B00A8C72CD5 /* Pods-ARScene.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ARScene.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ARScene/Pods-ARScene.debug.xcconfig"; sourceTree = "<group>"; };
+		A57B414D2042C3B800444716 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
+		A57B41522042C96300444716 /* Traffic.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = Traffic.mp4; sourceTree = "<group>"; };
 		A583DD18203BA8BA00274065 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A583DD1B203BA98D00274065 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A5AFA57D203B980E00F5E973 /* ARScene.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ARScene.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A57B414F2042C3EC00444716 /* ARKit.framework in Frameworks */,
 				09DD183FFA0F0207EA6AA201 /* Pods_ARScene.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -107,6 +112,7 @@
 		A5AFA574203B980E00F5E973 = {
 			isa = PBXGroup;
 			children = (
+				A57B41522042C96300444716 /* Traffic.mp4 */,
 				A5AFA57F203B980E00F5E973 /* ARScene */,
 				A5AFA596203B980E00F5E973 /* ARSceneTests */,
 				A5AFA5A1203B980E00F5E973 /* ARSceneUITests */,
@@ -162,6 +168,7 @@
 		A8EF1C09E6294C0B6AA36F56 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A57B414D2042C3B800444716 /* ARKit.framework */,
 				F82AE66EBD32F634AB5954EA /* Pods_ARScene.framework */,
 				1F05703CF626B0AB645650D5 /* Pods_ARSceneTests.framework */,
 				3A53C84628CFA7C346A81FE1 /* Pods_ARSceneUITests.framework */,
@@ -298,6 +305,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A57B41532042C96300444716 /* Traffic.mp4 in Resources */,
 				A5AFA583203B980E00F5E973 /* art.scnassets in Resources */,
 				A5AFA58D203B980E00F5E973 /* LaunchScreen.storyboard in Resources */,
 				A583DD19203BA8BA00274065 /* GoogleService-Info.plist in Resources */,
@@ -650,12 +658,14 @@
 			baseConfigurationReference = 671AE101F1C65B00A8C72CD5 /* Pods-ARScene.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 995R6M794F;
 				INFOPLIST_FILE = ARScene/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.testing.ARScene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -666,12 +676,14 @@
 			baseConfigurationReference = BA3A0CAC725818858AAA210A /* Pods-ARScene.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 995R6M794F;
 				INFOPLIST_FILE = ARScene/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.testing.ARScene;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
