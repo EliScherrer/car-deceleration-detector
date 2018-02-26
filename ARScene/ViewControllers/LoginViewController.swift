@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import AVFoundation
+
 class LoginViewController: UIViewController {
     var avPlayer: AVPlayer!
     var avPlayerLayer: AVPlayerLayer!
