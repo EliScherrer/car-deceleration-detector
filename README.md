@@ -7,7 +7,7 @@ camera and alerts you when the car directly in front of you starts slowing down
 
 The following **core** functionality is completed:
 
-- [ ] Setup Firebase
+- [X] Setup Firebase
 - [ ] Login screen
   - [ ] user can create an account
   - [ ] user can log it
@@ -15,7 +15,7 @@ The following **core** functionality is completed:
 - [ ] Settings screen
   - [ ] threshold setting, how fast the car in front of you must be decelerating before notfiying the user
   - [ ] change the noise that plays when deceleration is detected
-  - [ ] user can log out of the application
+  - [X] user can log out of the application
 - [ ] Screen that shows the view of the camera
   - [ ] Has a button to start and stop tracking
 - [ ] Track the current speed of the user
@@ -33,7 +33,6 @@ The following **strech** features are implemented:
 ## Wire Frame
 
 <img src='https://i.imgur.com/t9OW4aw.png' title='Video Walkthrough' width='' alt='Wire Frame' />
-
 
 
 ## Credits
