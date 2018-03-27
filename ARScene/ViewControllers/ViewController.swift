@@ -14,6 +14,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     var statusLabel:UILabel?
     var pointerLabel:UILabel?
+    
+    //values for calculating acceleration
+    var oldestDistance:CGFloat = 0.0
+    var lastDistance:CGFloat = 0.0
+    var currentDistance:CGFloat = 0.0
+    
+    var lastVelocity:CGFloat = 0.0
+    var currentVelocity:CGFloat = 0.0
+    
+    var currentAcceleration:CGFloat = 0.0
+    
+    var totalTime:CGFloat = 0.0
+    var timeInterval:CGFloat = 0.1
+    
 
     @IBOutlet var sceneView: ARSCNView!
     
@@ -45,7 +59,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
         sceneView.addSubview(statusLabel!)
 //        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.distanceHandler), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: TimeInterval(self.timeInterval), target: self, selector: #selector(ViewController.distanceHandler), userInfo: nil, repeats: true)
 //        tapRecognizer.numberOfTapsRequired = 1
 //        sceneView.addGestureRecognizer(tapRecognizer)
         // Set the scene to the view
@@ -91,17 +105,37 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     }
     
     @objc func distanceHandler(){
+        totalTime += timeInterval   //update the total time
         let tapLocation = view.center
         let hitTestResults = sceneView.hitTest(tapLocation, types: .featurePoint)
         if let result = hitTestResults.first {
             let distance = result.distance
-            if distance < 1 {
-                statusLabel?.textColor = UIColor.red
+            
+            //update distances
+            oldestDistance = lastDistance
+            lastDistance = currentDistance
+            currentDistance = distance
+            
+            //will break if doing math with 0s
+            if (totalTime > 0.3) {
+                lastVelocity = ((oldestDistance - lastDistance) / timeInterval)
+                currentVelocity = ((lastDistance - currentDistance) / timeInterval)
+                currentAcceleration = ((lastVelocity - currentVelocity) / (2 * timeInterval))
+                
+                statusLabel?.text = String(format: "Distance: %.2f meters", currentAcceleration)
             }
-            else{
-                statusLabel?.textColor = UIColor.white
+            else if (totalTime > 0.2) {
+                lastVelocity = currentVelocity
+                currentVelocity = ((lastDistance - currentDistance) / timeInterval)
             }
-            statusLabel?.text = String(format: "Distance: %.2f meters", distance)
+            
+//            if distance < 1 {
+//                statusLabel?.textColor = UIColor.red
+//            }
+//            else{
+//                statusLabel?.textColor = UIColor.white
+//            }
+//            statusLabel?.text = String(format: "Distance: %.2f meters", distance)
         }
     }
     
