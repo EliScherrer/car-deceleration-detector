@@ -13,6 +13,8 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     var statusLabel:UILabel?
+    var pointerLabel:UILabel?
+
     @IBOutlet var sceneView: ARSCNView!
     
     override func viewDidLoad() {
@@ -29,11 +31,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         statusLabel?.textColor = .white
         statusLabel?.frame = CGRect(x: 0, y: 16, width: view.bounds.width, height: 64)
         
+        // Show the X in the middle of the screen so the user knows what the distance is calculated for
+        pointerLabel = UILabel(frame: CGRect.zero)
+        pointerLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
+        pointerLabel?.textAlignment = .center
+        pointerLabel?.textColor = .white
+        pointerLabel?.center = sceneView.center
+        pointerLabel?.text = "X"
+        
+        sceneView.addSubview(pointerLabel!)
+        
         // Create a new scene
 //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
         sceneView.addSubview(statusLabel!)
 //        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: Selector("distanceHandler"), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(ViewController.distanceHandler), userInfo: nil, repeats: true)
 //        tapRecognizer.numberOfTapsRequired = 1
 //        sceneView.addGestureRecognizer(tapRecognizer)
         // Set the scene to the view
