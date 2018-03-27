@@ -26,7 +26,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var currentAcceleration:CGFloat = 0.0
     
     var totalTime:CGFloat = 0.0
-    var timeInterval:CGFloat = 0.1
+    var timeInterval:CGFloat = 0.5
     
 
     @IBOutlet var sceneView: ARSCNView!
@@ -122,12 +122,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 currentVelocity = ((lastDistance - currentDistance) / timeInterval)
                 currentAcceleration = ((lastVelocity - currentVelocity) / (2 * timeInterval))
                 
+                print(String(format: "TotalTime: %.4f seconds\n", totalTime))
                 print(String(format: "OldestDistance: %.4f meters", oldestDistance))
-                print(String(format: "OldestDistance: %.4f meters", lastDistance))
-                print(String(format: "OldestDistance: %.4f meters", currentDistance))
-                print(String(format: "OldestDistance: %.4f meters", lastVelocity))
-                print(String(format: "OldestDistance: %.4f meters", currentVelocity))
-                print(String(format: "OldestDistance: %.4f meters", currentAcceleration))
+                print(String(format: "LastDistance: %.4f meters", lastDistance))
+                print(String(format: "CurrentDistance: %.4f meters", currentDistance))
+                print(String(format: "LastVelocity: %.4f meters", lastVelocity))
+                print(String(format: "CurrentVelocity: %.4f meters", currentVelocity))
+                print(String(format: "CurrentAcceleration: %.4f meters\n", currentAcceleration))
 
                 
                 
