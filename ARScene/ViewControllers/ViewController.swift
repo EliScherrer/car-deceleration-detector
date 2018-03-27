@@ -32,9 +32,10 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Create a new scene
 //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
         sceneView.addSubview(statusLabel!)
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        tapRecognizer.numberOfTapsRequired = 1
-        sceneView.addGestureRecognizer(tapRecognizer)
+//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: Selector("distanceHandler"), userInfo: nil, repeats: true)
+//        tapRecognizer.numberOfTapsRequired = 1
+//        sceneView.addGestureRecognizer(tapRecognizer)
         // Set the scene to the view
 //        sceneView.scene = scene
     }
@@ -77,11 +78,17 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         statusLabel?.text = status
     }
     
-    @objc func handleTap(sender: UITapGestureRecognizer) {
-        let tapLocation = sender.location(in: sceneView)
+    @objc func distanceHandler(){
+        let tapLocation = view.center
         let hitTestResults = sceneView.hitTest(tapLocation, types: .featurePoint)
         if let result = hitTestResults.first {
             let distance = result.distance
+            if distance < 1 {
+                statusLabel?.textColor = UIColor.red
+            }
+            else{
+                statusLabel?.textColor = UIColor.white
+            }
             statusLabel?.text = String(format: "Distance: %.2f meters", distance)
         }
     }
