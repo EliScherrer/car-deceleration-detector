@@ -122,6 +122,15 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 currentVelocity = ((lastDistance - currentDistance) / timeInterval)
                 currentAcceleration = ((lastVelocity - currentVelocity) / (2 * timeInterval))
                 
+                print(String(format: "OldestDistance: %.4f meters", oldestDistance))
+                print(String(format: "OldestDistance: %.4f meters", lastDistance))
+                print(String(format: "OldestDistance: %.4f meters", currentDistance))
+                print(String(format: "OldestDistance: %.4f meters", lastVelocity))
+                print(String(format: "OldestDistance: %.4f meters", currentVelocity))
+                print(String(format: "OldestDistance: %.4f meters", currentAcceleration))
+
+                
+                
                 statusLabel?.text = String(format: "Distance: %.2f meters", currentAcceleration)
             }
             else if (totalTime > 0.2) {
