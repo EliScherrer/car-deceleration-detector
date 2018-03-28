@@ -13,6 +13,8 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     var statusLabel:UILabel?
+    var statusColor:UIColor = UIColor.white
+    
     var pointerLabel:UILabel?
     
     //values for calculating acceleration
@@ -130,9 +132,16 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 print(String(format: "CurrentVelocity: %.4f meters", currentVelocity))
                 print(String(format: "CurrentAcceleration: %.4f meters\n", currentAcceleration))
 
-                
-                
                 statusLabel?.text = String(format: "Distance: %.2f meters", currentAcceleration)
+                statusLabel?.textColor = statusColor
+                
+                if (lastDistance > currentDistance || oldestDistance > currentDistance) {
+                    if (currentAcceleration > 0.13) {
+                        statusColor = UIColor.red
+                        statusLabel?.textColor = statusColor
+                    }
+                }
+                
             }
             else if (totalTime > 0.2) {
                 lastVelocity = currentVelocity
