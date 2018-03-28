@@ -9,7 +9,7 @@
 import UIKit
 import SceneKit
 import ARKit
-
+import AVFoundation
 
 class ViewController: UIViewController, ARSCNViewDelegate {
 
@@ -29,30 +29,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     var currentAcceleration:CGFloat = 0.0
     
     var totalTime:CGFloat = 0.0
-    var timeInterval:CGFloat = 0.5
+    var timeInterval:CGFloat = 0.10
     
 
     @IBOutlet var sceneView: ARSCNView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        guard let device = AVCaptureDevice.default(for: AVMediaType.video)
-            else {return}
-        
-        if device.hasTorch {
-            do {
-                try device.lockForConfiguration()
-                
-
-                device.torchMode = .on // set on
-                
-                device.unlockForConfiguration()
-            } catch {
-                print("Torch could not be used")
-            }
-        } else {
-            print("Torch is not available")
-        }
         // Set the view's delegate
         sceneView.delegate = self
         
@@ -65,6 +48,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         statusLabel?.frame = CGRect(x: 0, y: 16, width: view.bounds.width, height: 64)
         sceneView.addSubview(statusLabel!)
 
+        
         // Show the X in the middle of the screen so the user knows what the distance is calculated for
         pointerLabel = UILabel(frame: CGRect.zero)
         pointerLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
@@ -83,6 +67,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         Timer.scheduledTimer(timeInterval: TimeInterval(self.timeInterval), target: self, selector: #selector(ViewController.distanceHandler), userInfo: nil, repeats: true)
 
+    }
+    
+    func getFlashState(){
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video)
+            else {return}
+        
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                device.torchMode = .auto // set on
+                device.unlockForConfiguration()
+            } catch {
+                print("Torch could not be used")
+            }
+        } else {
+            print("Torch is not available")
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -123,7 +124,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         statusLabel?.text = status
     }
     
+    
     @objc func distanceHandler(){
+        self.getFlashState()
         totalTime += timeInterval   //update the total time
         let tapLocation = view.center
         let hitTestResults = sceneView.hitTest(tapLocation, types: .featurePoint)
@@ -149,12 +152,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 print(String(format: "CurrentVelocity: %.4f meters", currentVelocity))
                 print(String(format: "CurrentAcceleration: %.4f meters\n", currentAcceleration))
 
-                statusLabel?.text = String(format: "Distance: %.2f meters", currentAcceleration)
+                statusLabel?.text = String(format: "Acceleration: %.2f meters", currentAcceleration)
                 statusLabel?.textColor = statusColor
                 
                 if (lastDistance > currentDistance || oldestDistance > currentDistance) {
-                    if (currentAcceleration > 0.13) {
+                    if (currentAcceleration > 1) {
                         statusColor = UIColor.red
+                        AudioServicesPlayAlertSound(SystemSoundID(1304))
                         statusLabel?.textColor = statusColor
                     }
                     else{

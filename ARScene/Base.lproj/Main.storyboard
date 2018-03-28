@@ -49,12 +49,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="o5c-IK-D6G">
+                            <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="o5c-IK-D6G">
                                 <rect key="frame" x="74" y="176" width="94" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="stepperPressed:" destination="LPd-FE-tdg" eventType="valueChanged" id="073-mx-DCx"/>
+                                </connections>
                             </stepper>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7m0-bE-t2v">
-                                <rect key="frame" x="211" y="174" width="61" height="33"/>
+                                <rect key="frame" x="211" y="174" width="148" height="33"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="40"/>
                                 <nil key="textColor"/>
@@ -81,9 +84,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="alarmPicker" destination="dfq-XS-ESb" id="ovG-T5-LYm"/>
                         <outlet property="decelerationThresholdLabel" destination="7m0-bE-t2v" id="hqW-qy-wDo"/>
                         <outlet property="soundPicker" destination="dfq-XS-ESb" id="hUo-HG-ycZ"/>
-                        <outlet property="thresholdAdjuster" destination="o5c-IK-D6G" id="r3r-GR-ZJY"/>
+                        <outlet property="stepper" destination="o5c-IK-D6G" id="yvd-x9-Fmg"/>
                         <segue destination="BV1-FR-VrT" kind="presentation" identifier="mainViewSegue" id="yit-wK-Ujh"/>
                     </connections>
                 </viewController>
