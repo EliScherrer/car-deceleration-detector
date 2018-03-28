@@ -136,65 +136,77 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     @objc func distanceHandler(){
         self.getFlashState()
-        totalTime += timeInterval   //update the total time
         let tapLocation = view.center
         let hitTestResults = sceneView.hitTest(tapLocation, types: .featurePoint)
         if let result = hitTestResults.first {
             
-            //update the array of values
-            var i = 0
-            while (i < 14) {
-                distances[i + 1] = distances[i]
-                i += 1
+            //make sure to add the first distance
+            if (totalTime == 0.0) {
+                distances[0] = result.distance
             }
-            distances[0] = result.distance
+            totalTime += timeInterval   //update the total time
             
-            if (totalTime > (timeInterval * 3)) {
+            //check for inacurate measurments
+            if (abs(result.distance - distances[0]!) < 0.01) {
                 
-                //update distances
-                oldestDistance = ((distances[14]! + distances[13]! + distances[12]! + distances[11]! + distances[10]!) / 5)
-                lastDistance = ((distances[9]! + distances[8]! + distances[7]! + distances[6]! + distances[5]!) / 5)
-                currentDistance = ((distances[4]! + distances[3]! + distances[2]! + distances[1]! + distances[0]!) / 5)
+                //update the array of values
+                var i = 0
+                while (i < 14) {
+                    distances[i + 1] = distances[i]
+                    i += 1
+                }
+                distances[0] = result.distance
                 
-                //update display on different interval
-                if (totalTime.truncatingRemainder(dividingBy: calcInterval)  == 0) {
-                    lastVelocity = ((oldestDistance - lastDistance) / timeInterval)
-                    currentVelocity = ((lastDistance - currentDistance) / timeInterval)
-                    currentAcceleration = ((lastVelocity - currentVelocity) / (2 * timeInterval))
+                if (totalTime > (timeInterval * 3)) {
                     
-                    print(String(format: "TotalTime: %.4f seconds\n", totalTime))
-                    print(String(format: "OldestDistance: %.4f meters", oldestDistance))
-                    print(String(format: "LastDistance: %.4f meters", lastDistance))
-                    print(String(format: "CurrentDistance: %.4f meters", currentDistance))
-                    print(String(format: "LastVelocity: %.4f meters", lastVelocity))
-                    print(String(format: "CurrentVelocity: %.4f meters", currentVelocity))
-                    print(String(format: "CurrentAcceleration: %.4f meters\n", currentAcceleration))
+                    //update distances
+                    oldestDistance = ((distances[14]! + distances[13]! + distances[12]! + distances[11]! + distances[10]!) / 5)
+                    lastDistance = ((distances[9]! + distances[8]! + distances[7]! + distances[6]! + distances[5]!) / 5)
+                    currentDistance = ((distances[4]! + distances[3]! + distances[2]! + distances[1]! + distances[0]!) / 5)
                     
-                    statusLabel?.text = String(format: "Acceleration: %.2f meters", currentAcceleration)
-                    statusLabel?.textColor = statusColor
-                    
-                    if (lastDistance > currentDistance || oldestDistance > currentDistance) {
-                        if (currentAcceleration > 1) {
-                            statusColor = UIColor.red
-                            AudioServicesPlayAlertSound(SystemSoundID(1304))
-                            statusLabel?.textColor = statusColor
+                    //update display on different interval
+                    if (totalTime.truncatingRemainder(dividingBy: calcInterval)  == 0) {
+                        lastVelocity = ((oldestDistance - lastDistance) / timeInterval)
+                        currentVelocity = ((lastDistance - currentDistance) / timeInterval)
+                        currentAcceleration = ((lastVelocity - currentVelocity) / (2 * timeInterval))
+                        
+                        print(String(format: "TotalTime: %.4f seconds\n", totalTime))
+                        print(String(format: "OldestDistance: %.4f meters", oldestDistance))
+                        print(String(format: "LastDistance: %.4f meters", lastDistance))
+                        print(String(format: "CurrentDistance: %.4f meters", currentDistance))
+                        print(String(format: "LastVelocity: %.4f meters", lastVelocity))
+                        print(String(format: "CurrentVelocity: %.4f meters", currentVelocity))
+                        print(String(format: "CurrentAcceleration: %.4f meters\n", currentAcceleration))
+                        
+                        statusLabel?.text = String(format: "Acceleration: %.2f meters", currentAcceleration)
+                        statusLabel?.textColor = statusColor
+                        
+                        if (lastDistance > currentDistance || oldestDistance > currentDistance) {
+                            if (currentAcceleration > 1) {
+                                statusColor = UIColor.red
+                                AudioServicesPlayAlertSound(SystemSoundID(1304))
+                                statusLabel?.textColor = statusColor
+                            }
+                            else{
+                                statusColor = UIColor.white
+                            }
                         }
                         else{
                             statusColor = UIColor.white
                         }
+                        
                     }
-                    else{
-                        statusColor = UIColor.white
+                    else if (totalTime > 0.2) {
+                        lastVelocity = currentVelocity
+                        currentVelocity = ((lastDistance - currentDistance) / timeInterval)
                     }
                     
                 }
-                else if (totalTime > 0.2) {
-                    lastVelocity = currentVelocity
-                    currentVelocity = ((lastDistance - currentDistance) / timeInterval)
-                }
+                
+                
+                
                 
             }
-
             
             
 //            if distance < 1 {
