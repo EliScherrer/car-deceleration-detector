@@ -8,20 +8,18 @@ camera and alerts you when the car directly in front of you starts slowing down
 The following **core** functionality is completed:
 
 - [X] Setup Firebase
-- [ ] Login screen
-  - [ ] user can create an account
-  - [ ] user can log it
-  - [ ] login is persisted through sessions
-- [ ] Settings screen
-  - [ ] threshold setting, how fast the car in front of you must be decelerating before notfiying the user
+- [X] Login screen
+  - [X] user can create an account
+  - [X] user can log it
+  - [X] login is persisted through sessions
+- [X] Settings screen
   - [ ] change the noise that plays when deceleration is detected
   - [X] user can log out of the application
-- [ ] Screen that shows the view of the camera
-  - [ ] Has a button to start and stop tracking
-- [ ] Track the current speed of the user
-- [ ] Track the car in front of you
-- [ ] Track the speed of the car in front of you
-- [ ] Alert when the car in front of you starts decelerating
+- [X] Screen that shows the view of the camera
+- [X] Track the current speed of the user
+- [X] Track the car in front of you
+- [X] Track the speed of the car in front of you
+- [X] Alert when the car in front of you starts decelerating
   
 The following **strech** features are implemented:
 
