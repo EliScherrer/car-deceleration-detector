@@ -10,6 +10,7 @@ import UIKit
 import SceneKit
 import ARKit
 
+
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     var statusLabel:UILabel?
@@ -35,7 +36,23 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        guard let device = AVCaptureDevice.default(for: AVMediaType.video)
+            else {return}
         
+        if device.hasTorch {
+            do {
+                try device.lockForConfiguration()
+                
+
+                device.torchMode = .on // set on
+                
+                device.unlockForConfiguration()
+            } catch {
+                print("Torch could not be used")
+            }
+        } else {
+            print("Torch is not available")
+        }
         // Set the view's delegate
         sceneView.delegate = self
         
@@ -46,26 +63,26 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         statusLabel?.textAlignment = .center
         statusLabel?.textColor = .white
         statusLabel?.frame = CGRect(x: 0, y: 16, width: view.bounds.width, height: 64)
-        
+        sceneView.addSubview(statusLabel!)
+
         // Show the X in the middle of the screen so the user knows what the distance is calculated for
         pointerLabel = UILabel(frame: CGRect.zero)
         pointerLabel?.font = UIFont.preferredFont(forTextStyle: UIFontTextStyle.title1)
         pointerLabel?.textAlignment = .center
         pointerLabel?.textColor = .white
+        pointerLabel?.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: 64)
         pointerLabel?.center = sceneView.center
-        pointerLabel?.text = "X"
+        pointerLabel?.text = "x"
         
         sceneView.addSubview(pointerLabel!)
         
-        // Create a new scene
-//        let scene = SCNScene(named: "art.scnassets/ship.scn")!
-        sceneView.addSubview(statusLabel!)
-//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeLeft.direction = UISwipeGestureRecognizerDirection.left
+        sceneView.addGestureRecognizer(swipeLeft)
+        
+        
         Timer.scheduledTimer(timeInterval: TimeInterval(self.timeInterval), target: self, selector: #selector(ViewController.distanceHandler), userInfo: nil, repeats: true)
-//        tapRecognizer.numberOfTapsRequired = 1
-//        sceneView.addGestureRecognizer(tapRecognizer)
-        // Set the scene to the view
-//        sceneView.scene = scene
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,6 +157,12 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                         statusColor = UIColor.red
                         statusLabel?.textColor = statusColor
                     }
+                    else{
+                        statusColor = UIColor.white
+                    }
+                }
+                else{
+                    statusColor = UIColor.white
                 }
                 
             }
@@ -172,4 +195,21 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Reset tracking and/or remove existing anchors if consistent tracking is required
         
     }
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                print("Swiped right")
+            case UISwipeGestureRecognizerDirection.down:
+                print("Swiped down")
+            case UISwipeGestureRecognizerDirection.left:
+                performSegue(withIdentifier: "settingsSegue", sender: self)
+            case UISwipeGestureRecognizerDirection.up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
+    }
+    
 }

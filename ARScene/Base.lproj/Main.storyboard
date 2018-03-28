@@ -20,7 +20,7 @@
                     </arscnView>
                     <connections>
                         <outlet property="sceneView" destination="BrB-h1-WRS" id="5nT-qQ-ynl"/>
-                        <segue destination="WoR-n6-YYt" kind="presentation" id="YBb-vc-r6h"/>
+                        <segue destination="WoR-n6-YYt" kind="presentation" identifier="settingsSegue" modalTransitionStyle="flipHorizontal" id="YBb-vc-r6h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
@@ -69,7 +69,11 @@
                         <viewLayoutGuide key="safeArea" id="sdW-gf-eaj"/>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="znm-5w-SP8">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="cCs-j4-aT6"/>
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="cCs-j4-aT6">
+                            <connections>
+                                <action selector="backButtonPressed:" destination="LPd-FE-tdg" id="fd3-uF-HxO"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Logout" id="GuE-Nc-xUh">
                             <connections>
                                 <action selector="didTapLogout:" destination="LPd-FE-tdg" id="vZa-dv-4lC"/>
@@ -80,6 +84,7 @@
                         <outlet property="decelerationThresholdLabel" destination="7m0-bE-t2v" id="hqW-qy-wDo"/>
                         <outlet property="soundPicker" destination="dfq-XS-ESb" id="hUo-HG-ycZ"/>
                         <outlet property="thresholdAdjuster" destination="o5c-IK-D6G" id="r3r-GR-ZJY"/>
+                        <segue destination="BV1-FR-VrT" kind="presentation" identifier="mainViewSegue" id="yit-wK-Ujh"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AtF-Rr-LCP" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -164,4 +169,7 @@
             <point key="canvasLocation" x="1032" y="133.13343328335833"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="yit-wK-Ujh"/>
+    </inferredMetricsTieBreakers>
 </document>

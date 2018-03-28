@@ -39,6 +39,9 @@ class SettingsViewController: UIViewController {
     }
     
     
+    @IBAction func backButtonPressed(_ sender: Any) {
+        performSegue(withIdentifier: "mainViewSegue", sender: self)
+    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
